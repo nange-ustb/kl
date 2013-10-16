@@ -1,0 +1,64 @@
+class Admin::BonusPoolsController < ApplicationController
+  def index
+    @bonus_pools = BonusPool.all.map( &:to_full_params )
+    respond_to do |format|
+      format.json { render :json => @bonus_pools }
+    end
+  end
+
+  def show
+    @bonus_pool = 
+      if bonus_pool = BonusPool.find( params[ :id ] )
+        bonus_pool.to_full_params
+      else
+        nil
+      end
+    respond_to do |format|
+      format.json { render :json => @bonus_pool }
+    end
+  end
+
+  def update
+    @bonus_pool =
+      if bonus_pool = BonusPool.find( params[ :id ] )
+        params[:award_pools].map do|bonus_params|
+          if bonus = bonus_pool.bonuses.where( :code => bonus_params[ :code ] ).first
+            bonus.update_attributes( bonus_params )
+          else
+            bonus = Bonus.create( bonus_params.merge( :bonus_pool_id => bonus_pool.id ) )
+          end
+          bonus.update_left_count_in_redis!
+        end
+        bonus_pool.update_digit_pool!
+        bonus_pool
+      else
+        nil
+      end
+    respond_to do |format|
+      format.json { render :json => @bonus_pool.nil? ? "" : @bonus_pool.to_full_params }
+    end
+  end
+
+  def create
+    if params[:code].present?
+      @bonus_pool = BonusPool.create( :code => params[:code] )
+      params[:award_pools].each do|bonus_params|
+        bonus = Bonus.create( bonus_params.merge( :bonus_pool_id => @bonus_pool.id ) )
+        bonus.update_left_count_in_redis!
+      end
+      @bonus_pool.update_digit_pool!
+    end
+    respond_to do |format|
+      format.json { render :json => @bonus_pool.nil? ? "" : @bonus_pool.to_full_params }
+    end
+  end
+
+  def destroy
+    bonus_pool = BonusPool.find( params[:id] )
+    destroyed = bonus_pool.destroy
+    respond_to do |format|
+      format.json { render :json => destroyed }
+    end
+  end
+
+end

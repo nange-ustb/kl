@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/GIM/Rails/!svn/ver/14299/lottery_game/trunk/config
+END
+routes.rb
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/GIM/Rails/!svn/ver/14299/lottery_game/trunk/config/routes.rb
+END
+database.yml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config/database.yml
+END
+application.rb
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config/application.rb
+END
+boot.rb
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config/boot.rb
+END
+environment.rb
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config/environment.rb
+END
+deploy.rb
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/GIM/Rails/!svn/ver/14297/lottery_game/trunk/config/deploy.rb
+END

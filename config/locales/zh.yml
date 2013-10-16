@@ -1,0 +1,37 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+zh:
+  action_lables: &action_lables
+    new: 新建
+    edit: 编辑
+    destroy: 删除
+    show: 查看详细
+    export: 导出数据
+    search: 搜索
+    list: 全部列表
+    on_shelf: 上架
+    off_shelf: 下架
+    on_sale: 上架
+    off_sale: 下架
+    loading: 稍等....
+    back_list: 返回列表页面
+    send_out: 设置已发货
+    send_success: 设置兑换成功
+    are_you_sure: "您确定删除这条数据吗？"
+    time: 时间
+    preview: 预览 
+  game:
+    <<: *action_lables
+  activerecord:
+    models:
+      game: 活动
+      award: 奖品
+    attributes:
+      game:
+        title: 名称
+        count: 数量
+      award:
+        title: 名称
+        count: 数量
+        probability: 几率

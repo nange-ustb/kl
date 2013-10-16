@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/GIM/Rails/!svn/ver/21081/lottery_game/trunk/app/controllers/admin
+END
+bonus_pools_controller.rb
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/app/controllers/admin/bonus_pools_controller.rb
+END
+resource_controller.rb
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/GIM/Rails/!svn/ver/21081/lottery_game/trunk/app/controllers/admin/resource_controller.rb
+END

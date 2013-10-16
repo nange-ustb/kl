@@ -1,0 +1,12 @@
+%dl
+  - attributes.each do |attr|
+    %dt= resource_class.human_attribute_name(attr)
+    - attr_value = resource.send(attr)
+    - case attr_value
+    - when TrueClass , FalseClass
+      %dd= resource_class.human_attribute_name(attr + "_" + attr_value.to_s)
+    - else
+      %dd= attr_value
+=link_to t("#{resource_class.name.underscore}.back_list") , collection_path
+- cache ("game_" + resource.updated_at.to_i.to_s) do
+  = render "object_inspect"

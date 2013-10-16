@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/db/migrate
+END
+20121220070331_create_bonus_pools.rb
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/db/migrate/20121220070331_create_bonus_pools.rb
+END
+20121220070659_create_bonus.rb
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/db/migrate/20121220070659_create_bonus.rb
+END

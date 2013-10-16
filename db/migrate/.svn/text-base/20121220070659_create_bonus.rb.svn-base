@@ -1,0 +1,14 @@
+class CreateBonus < ActiveRecord::Migration
+  def change
+    create_table :bonus do |t|
+      t.string :code
+      t.float :probability
+      t.integer :count
+      t.belongs_to :bonus_pool
+
+      t.timestamps
+    end
+    add_index :bonus, :bonus_pool_id
+    add_index :bonus, :code
+  end
+end

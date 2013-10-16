@@ -1,0 +1,36 @@
+# == Schema Information
+#
+# Table name: bonus
+#
+#  id            :integer          not null, primary key
+#  code          :string(255)
+#  probability   :float
+#  count         :integer
+#  bonus_pool_id :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
+class Bonus < ActiveRecord::Base
+  include Redis::Objects
+  extend FriendlyId
+  friendly_id :code
+  validates :code , :uniqueness => {:scope => :bonus_pool_id } , :presence => true , :allow_blank => false
+  belongs_to :bonus_pool
+  attr_accessible :code, :probability, :count , :bonus_pool_id
+  counter :left_count , :key => '#{Rails.env}/bonus/#{code}'
+  scope :not_over , where{ count > 0 }
+  scope :over , where{ count <= 0 }
+  
+  def update_left_count_in_redis!
+    self.left_count.clear
+    self.left_count.incr self.count
+    self
+  end
+  
+  def update_left_count_into_db!
+    self.count = self.left_count.value
+    self.save if self.changed?
+    self
+  end
+end

@@ -1,0 +1,6 @@
+LotteryGame::Application.routes.draw do
+  resources :bonus_pools , :path => :levels ,  :only => [ :update , :show ]
+  namespace :admin do
+    resources :bonus_pools , :path => :levels , :only => [ :show , :update , :create , :destroy , :index ]
+  end
+end

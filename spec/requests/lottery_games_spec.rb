@@ -1,0 +1,180 @@
+# -*- encoding : utf-8 -*-
+require 'spec_helper'
+
+
+
+describe "LotteryGames" do
+
+  def post_params_to_create_bonus_pool_with_limited_size
+      @bonus_pool_params ={
+            :code => "pool_code" ,
+            :award_pools => [
+              { :code => "aaa" , :count => 10 , :probability => 0.5 },
+              { :code => "bbb" , :count => 100 , :probability => 0.3 }
+            ] ,
+            :format => :json 
+          }
+      post admin_bonus_pools_path , @bonus_pool_params
+      BonusPool.should be_exists :code => "pool_code"
+      Bonus.should be_exists :code => "aaa"
+      Bonus.should be_exists :code => "bbb"
+      bonus_pool = BonusPool.find "pool_code"
+      bonus_pool.digit_pool.length.should == 10000
+      bonus_pool.digit_pool.values.count{|_| _ == "aaa" }.should == 5000
+      bonus_pool.digit_pool.values.count{|_| _ == "bbb" }.should == 3000
+      bonus1 = Bonus.find "aaa"
+      bonus1.left_count.value.should == 10
+      bonus2 = Bonus.find "bbb"
+      bonus2.left_count.value.should == 100
+  end
+
+  def post_params_to_create_bonus_pool_with_unlimited_size
+      @bonus_pool_params ={
+            :code => "pool_code" ,
+            :award_pools => [
+              { :code => "aaa" , :count => 10000 , :probability => 0.5 },
+              { :code => "bbb" , :count => 10000 , :probability => 0.3 }
+            ] ,
+            :format => :json 
+          }
+      post admin_bonus_pools_path , @bonus_pool_params
+      BonusPool.should be_exists :code => "pool_code"
+      Bonus.should be_exists :code => "aaa"
+      Bonus.should be_exists :code => "bbb"
+      bonus_pool = BonusPool.find "pool_code"
+      bonus_pool.digit_pool.length.should == 10000
+      bonus_pool.digit_pool.values.count{|_| _ == "aaa" }.should == 5000
+      bonus_pool.digit_pool.values.count{|_| _ == "bbb" }.should == 3000
+      bonus1 = Bonus.find "aaa"
+      bonus1.left_count.value.should == 10000
+      bonus2 = Bonus.find "bbb"
+      bonus2.left_count.value.should == 10000
+  end
+
+  def put_params_to_update_bonus_pool_with_greater_limited_count
+      @bonus_pool_params ={
+            :award_pools => [
+              { :code => "aaa" , :count => 50 , :probability => 0.5 },
+              { :code => "bbb" , :count => 200 , :probability => 0.3 }
+            ] ,
+            :format => :json 
+          }
+      put admin_bonus_pool_path( "pool_code" , @bonus_pool_params) 
+      bonus_pool = BonusPool.find "pool_code"
+      bonus_pool.digit_pool.length.should == 10000
+      bonus_pool.digit_pool.values.count{|_| _ == "aaa" }.should == 5000
+      bonus_pool.digit_pool.values.count{|_| _ == "bbb" }.should == 3000
+      bonus1 = Bonus.find "aaa"
+      bonus1.left_count.value.should == 50
+      bonus2 = Bonus.find "bbb"
+      bonus2.left_count.value.should == 200
+  end
+
+  def put_params_to_update_bonus_pool_with_updated_probability_and_unlimited_count
+      @bonus_pool_params ={
+            :award_pools => [
+              { :code => "aaa" , :count => 10000 , :probability => 0.4 },
+              { :code => "bbb" , :count => 10000 , :probability => 0.2 }
+            ] ,
+            :format => :json 
+          }
+      put admin_bonus_pool_path( "pool_code" , @bonus_pool_params) 
+      bonus_pool = BonusPool.find "pool_code"
+      bonus_pool.digit_pool.length.should == 10000
+      bonus_pool.digit_pool.values.count{|_| _ == "aaa" }.should == 4000
+      bonus_pool.digit_pool.values.count{|_| _ == "bbb" }.should == 2000
+      bonus1 = Bonus.find "aaa"
+      bonus1.left_count.value.should == 10000
+      bonus2 = Bonus.find "bbb"
+      bonus2.left_count.value.should == 10000
+  end
+
+  describe "create and play lottery game" do
+    it "should pop a elements from bonus_pool.digit_pool after play!" do
+      post_params_to_create_bonus_pool_with_limited_size
+      put bonus_pool_path( "pool_code" , :format => :json )
+      resp = JSON.parse response.body
+      resp.should be_is_a Array
+      bonus_pool = BonusPool.find "pool_code"
+      bonus_pool.digit_pool.length.should == 10000 - 1
+    end
+
+    it "should return bonus not greater than input count" do
+        post_params_to_create_bonus_pool_with_limited_size
+        results = []
+        1000.times do|i|
+          put bonus_pool_path( "pool_code" , :format => :json )
+          resp = JSON.parse response.body
+          resp.should be_is_a Array
+          results << resp.first
+          bonus_pool = BonusPool.find "pool_code"
+          bonus_pool.digit_pool.length.should == 10000 - i - 1 # i start from 0
+        end
+        results.count{|_| _ == "aaa"}.should == 10
+        results.count{|_| _ == "bbb"}.should == 100
+    end
+
+    it "should return bonus base on input probability" do
+        post_params_to_create_bonus_pool_with_unlimited_size
+        results = []
+        1000.times do|i|
+          put bonus_pool_path( "pool_code" , :format => :json )
+          resp = JSON.parse response.body
+          resp.should be_is_a Array
+          results << resp.first
+          bonus_pool = BonusPool.find "pool_code"
+          bonus_pool.digit_pool.length.should == 10000 - i - 1
+        end
+        (results.count{|_| _ == "aaa"}/1000.0).should be_between 0.48 , 0.52
+        (results.count{|_| _ == "bbb"}/1000.0).should be_between 0.27 , 0.33
+    end
+
+  end
+
+  describe "update and play lottery game" do
+    it "should pop a elements from bonus_pool.digit_pool after play!" do
+      post_params_to_create_bonus_pool_with_limited_size
+      put_params_to_update_bonus_pool_with_greater_limited_count
+
+      put bonus_pool_path( "pool_code" , :format => :json )
+      resp = JSON.parse response.body
+      resp.should be_is_a Array
+      bonus_pool = BonusPool.find "pool_code"
+      bonus_pool.digit_pool.length.should == 10000 - 1
+    end
+
+    it "should return bonus not greater than updated count" do
+        post_params_to_create_bonus_pool_with_limited_size
+        put_params_to_update_bonus_pool_with_greater_limited_count
+        results = []
+        1000.times do|i|
+          put bonus_pool_path( "pool_code" , :format => :json )
+          resp = JSON.parse response.body
+          resp.should be_is_a Array
+          results << resp.first
+          bonus_pool = BonusPool.find "pool_code"
+          bonus_pool.digit_pool.length.should == 10000 - i - 1 # i start from 0
+        end
+        results.count{|_| _ == "aaa"}.should == 50
+        results.count{|_| _ == "bbb"}.should == 200
+    end
+
+    it "should return bonus base on updated probability" do
+        post_params_to_create_bonus_pool_with_unlimited_size
+        put_params_to_update_bonus_pool_with_updated_probability_and_unlimited_count
+        results = []
+        1000.times do|i|
+          put bonus_pool_path( "pool_code" , :format => :json )
+          resp = JSON.parse response.body
+          resp.should be_is_a Array
+          results << resp.first
+          bonus_pool = BonusPool.find "pool_code"
+          bonus_pool.digit_pool.length.should == ( (10000 - i - 1) < 0 ? 0 : (10000 - i - 1) )
+        end
+        (results.count{|_| _ == "aaa"}/1000.0).should be_between 0.38 , 0.42
+        (results.count{|_| _ == "bbb"}/1000.0).should be_between 0.17 , 0.23
+    end
+
+  end
+
+end

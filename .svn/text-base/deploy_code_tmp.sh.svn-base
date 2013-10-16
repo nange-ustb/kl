@@ -1,0 +1,1 @@
+cd .. && rm -rf codes_branches_v2.0/ && svn export http://server-code.grandsoft.com.cn/GIM/Rails/lottery_game/branches/v2.0 codes_branches_v2.0 && cp v2.0/.rvmrc codes_branches_v2.0/ && cd codes_branches_v2.0/ && cap deploy:code_tmp_server

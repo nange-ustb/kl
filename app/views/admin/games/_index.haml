@@ -1,0 +1,22 @@
+%table{:class => "admin_table"}
+  %thead
+    %tr
+      - attributes.each do |attr|
+        %th= resource_class.human_attribute_name(attr)
+      %th= "操作"
+  %tbody
+    - collection.each do |resource|
+      %tr[resource]
+        - attributes.each do |attr|
+          - if resource.send(attr).is_a? Time
+            %td= l resource.send(attr)
+          - else
+            %td= resource.send(attr).to_s.truncate(20)
+        %td
+          = link_to t("#{resource_class.name.underscore}.show"), resource_path(resource)
+          |
+          = link_to t("#{resource_class.name.underscore}.edit"), edit_resource_path(resource)
+          |
+          = link_to t("#{resource_class.name.underscore}.destroy"), resource_path(resource), :method => :delete, :confirm => t("#{resource_class.name.underscore}.are_you_sure")
+= paginate collection
+= link_to t("#{resource_class.name.underscore}.new"), new_resource_path

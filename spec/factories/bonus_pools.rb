@@ -1,0 +1,8 @@
+# -*- encoding : utf-8 -*-
+# Read about factories at https://github.com/thoughtbot/factory_girl
+
+FactoryGirl.define do
+  factory :bonus_pool do
+    code { "bonus_pool" + SecureRandom.hex(8) }
+  end
+end

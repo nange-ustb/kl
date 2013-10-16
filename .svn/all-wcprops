@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/GIM/Rails/!svn/ver/21081/lottery_game/trunk
+END
+Rakefile
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/Rakefile
+END
+README.rdoc
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/README.rdoc
+END
+Capfile
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/Capfile
+END
+.gitignore
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/.gitignore
+END
+.rvmrc
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/.rvmrc
+END
+Gemfile
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/GIM/Rails/!svn/ver/14298/lottery_game/trunk/Gemfile
+END
+config.ru
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config.ru
+END
+.rspec
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/.rspec
+END
+deploy_code_tmp.sh
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/deploy_code_tmp.sh
+END
+Gemfile.lock
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/Gemfile.lock
+END

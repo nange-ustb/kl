@@ -1,0 +1,12 @@
+%dl
+  - attributes.each do |attr|
+    %dt= resource_class.human_attribute_name(attr)
+    - attr_value = resource.send(attr)
+    - case attr_value
+    - when TrueClass , FalseClass
+      %dd= resource_class.human_attribute_name(attr + "_" + attr_value.to_s)
+    - when CarrierWave::Uploader::Base
+      %dd= image_tag( resource.send( attr + "_url" , :thumb ) ) unless resource.send( attr + "_url" ).nil?
+    - else
+      %dd= attr_value
+=link_to t("#{resource_class.name.underscore}.back_list") , collection_path

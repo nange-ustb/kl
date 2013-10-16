@@ -1,0 +1,4 @@
+- model_class = resource_class
+.page-header
+  %h1=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human, :default => "新建一个 #{model_class.model_name.human}")
+= render "form"

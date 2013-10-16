@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/GIM/Rails/!svn/ver/10972/network_marketing/glodon_eshop/trunk/app/views/admin/resource
+END
+new.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/GIM/Rails/!svn/ver/10972/network_marketing/glodon_eshop/trunk/app/views/admin/resource/new.html.haml
+END
+_form.haml
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/GIM/Rails/!svn/ver/10972/network_marketing/glodon_eshop/trunk/app/views/admin/resource/_form.haml
+END
+show.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/GIM/Rails/!svn/ver/10972/network_marketing/glodon_eshop/trunk/app/views/admin/resource/show.html.haml
+END
+_index.haml
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/GIM/Rails/!svn/ver/10972/network_marketing/glodon_eshop/trunk/app/views/admin/resource/_index.haml
+END
+edit.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/GIM/Rails/!svn/ver/10972/network_marketing/glodon_eshop/trunk/app/views/admin/resource/edit.html.haml
+END
+index.html.haml
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/GIM/Rails/!svn/ver/10972/network_marketing/glodon_eshop/trunk/app/views/admin/resource/index.html.haml
+END

@@ -1,0 +1,78 @@
+# == Schema Information
+#
+# Table name: bonus_pools
+#
+#  id         :integer          not null, primary key
+#  code       :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+class BonusPool < ActiveRecord::Base
+  include Redis::Objects
+  extend FriendlyId
+  friendly_id :code
+
+  attr_accessible :code
+  validates :code , :uniqueness => true , :presence => true , :allow_blank => false
+  has_many :bonuses , :class_name => "Bonus" , :dependent => :destroy
+  list :digit_pool , :key => '#{Rails.env}/bonus_pool/#{code}'
+  
+  EMPTY_SYMBOL = "empty"
+
+  def to_full_params
+    { self.code => collect_full_params }
+  end
+
+  def collect_full_params
+    Bonus.where( :bonus_pool_id => self.id ).map do|bonus|
+      {
+        :code => bonus.code ,
+        :count => bonus.left_count.value ,
+        :probability => bonus.probability
+      }
+    end
+  end
+
+  def play!
+    bonus_code = self.digit_pool.pop
+    if bonus_code && bonus_code != EMPTY_SYMBOL
+      bonus_counter = ::Redis::Counter.new( "#{Rails.env}/bonus/#{bonus_code}" , ::Bonus.redis, ::Bonus.redis_objects[:left_count])
+      if bonus_counter.value > 0
+        bonus_counter.decr
+        return bonus_code
+      end
+    end
+    nil
+  end
+
+  def update_digit_pool!
+    self.digit_pool.clear
+    bonuses_probabilities_and_codes = self.bonuses.not_over.collect{|bns| {:probability => bns.probability , :code => bns.code } }
+    
+    pool_size_limit = 10000
+    min_probability = bonuses_probabilities_and_codes.collect{|_| _[:probability]}.min
+    if min_probability < 0.0001
+      pool_size_limit = (( 1.0 / min_probability ) * 2).to_i
+    end
+    
+    pool_size = pool_size_limit * bonuses_probabilities_and_codes.sum{|_| _[:probability]}
+    pool_size = pool_size_limit if pool_size < pool_size_limit
+    
+    pool_ary = Array.new(pool_size) { EMPTY_SYMBOL }
+    bonuses_probabilities_and_codes.each do|probability_and_code|
+      probability_and_code[:count] = ( pool_size * probability_and_code[:probability] ).to_i
+    end
+    start_index = 0
+    bonuses_probabilities_and_codes.each do| probability_and_code_and_count |
+      pool_ary[ start_index , probability_and_code_and_count[:count] ] = 
+        [probability_and_code_and_count[:code]] * probability_and_code_and_count[:count]
+      start_index += probability_and_code_and_count[:count]
+    end
+    pool_ary.sort_by{|_|rand}.each do|code|
+      self.digit_pool << code
+    end
+    self
+  end
+  
+end

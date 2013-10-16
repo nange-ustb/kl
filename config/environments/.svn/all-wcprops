@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config/environments
+END
+development.rb
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config/environments/development.rb
+END
+production.rb
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config/environments/production.rb
+END
+test.rb
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/GIM/Rails/!svn/ver/14012/lottery_game/trunk/config/environments/test.rb
+END

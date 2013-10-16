@@ -1,0 +1,77 @@
+10
+
+dir
+21081
+http://server-code.grandsoft.com.cn/GIM/Rails/lottery_game/trunk/spec
+http://server-code.grandsoft.com.cn/GIM/Rails
+
+
+
+2013-04-02T10:51:16.268145Z
+14012
+zhangwh-a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+c74a76da-cd3e-5145-a8d1-4a383b865423
+
+controllers
+dir
+
+requests
+dir
+
+spec_helper.rb
+file
+
+
+
+
+2013-10-12T08:19:05.663586Z
+fd75215c1a347df43e535ddd612c65ed
+2012-12-26T00:57:26.065267Z
+11545
+zhangwh-a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2022
+
+factories
+dir
+
+helpers
+dir
+
+models
+dir
+

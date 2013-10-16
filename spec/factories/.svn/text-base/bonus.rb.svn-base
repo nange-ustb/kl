@@ -1,0 +1,16 @@
+# Read about factories at https://github.com/thoughtbot/factory_girl
+
+FactoryGirl.define do
+  factory :bonus do
+    code { "bonus" + SecureRandom.hex(8) }
+    probability{ rand }
+    count 100
+  end
+  
+  factory :bonus_linked_pool do
+    bonus_pool
+    code { "bonus" + SecureRandom.hex(8) }
+    probability{ rand }
+    count 100
+  end
+end

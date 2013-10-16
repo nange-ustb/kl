@@ -1,0 +1,6 @@
+# -*- encoding : utf-8 -*-
+module Admin::ResourceHelper
+  def attributes
+    resource_class.attribute_names - %w(id created_at updated_at display_order range_time)
+  end
+end

@@ -1,0 +1,10 @@
+class CreateBonusPools < ActiveRecord::Migration
+  def change
+    create_table :bonus_pools do |t|
+      t.string :code
+
+      t.timestamps
+    end
+    add_index :bonus_pools, :code
+  end
+end
