@@ -14,6 +14,7 @@ class Game < ActiveRecord::Base
   include Redis::Objects
   extend FriendlyId
   friendly_id :code
+  
 
   attr_accessible :code,:title,:awards_attributes
   validates :code , :uniqueness => true , :presence => true , :allow_blank => false
