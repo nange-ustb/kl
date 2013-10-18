@@ -1,0 +1,28 @@
+/ %h1 Listing games
+
+/ %table
+/   %tr
+/     %th Code
+/     %th Title
+/     %th
+/     %th
+/     %th
+
+/   - @games.each do |game|
+/     %tr
+/       %td= game.code
+/       %td= game.title
+/       %td= link_to 'Show', game
+/       %td= link_to 'Edit', edit_game_path(game)
+/       %td= link_to 'Destroy', game, :method => :delete, :data => { :confirm => 'Are you sure?' }
+/ %br
+
+/ = link_to 'New game', new_game_path
+%div(id="games")
+:javascript
+  $(function() {
+    // Blog is the app name
+    window.router = new LotteryGame.Routers.GamesRouter({games: #{@games.to_json.html_safe}});
+    Backbone.history.start();
+  });
+  

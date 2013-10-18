@@ -1,21 +1,32 @@
 # -*- encoding : utf-8 -*-
-class BonusPoolsController < ApplicationController
+class GamesController < ApplicationController
+  def index
+    @games = Game.all
+  end
+
+  def new
+    @game = Game.new
+  end
 
   def show
-    if @bonus_pool = BonusPool.find( params[:id] )
-      @bonus_code = @bonus_pool.play!
+    if @game = Game.find( params[:id] )
+      @code = @game.play!
     end
-    respond_to do |format|
-      format.json { render :json => [ @bonus_code ] }
+    if params[:format] == 'json'
+      respond_to do |format|
+        format.json { render :json => [ @code ] }
+      end
     end
   end
 
   def update
-    if @bonus_pool = BonusPool.find( params[:id] )
-      @bonus_code = @bonus_pool.play!
+    if @game = Game.find( params[:id] )
+      @code = @game.play!
     end
-    respond_to do |format|
-      format.json { render :json => [ @bonus_code ] }
+    if params[:format] == 'json'
+      respond_to do |format|
+        format.json { render :json => [ @code ] }
+      end
     end
   end
 end

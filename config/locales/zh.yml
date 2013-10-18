@@ -29,6 +29,7 @@ zh:
       award: 奖品
     attributes:
       game:
+        code: 身份编码
         title: 名称
         count: 数量
       award:

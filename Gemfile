@@ -48,4 +48,6 @@ gem  'ancestry'
 gem "second_level_cache", "~> 1.6"
 gem 'dalli'
 gem 'magic_encoding'
+gem "rails-backbone"
+
 # gem 'simple_cacheable'

@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Code:
+  = @game1.code
+%p
+  %b Title:
+  = @game1.title
+
+= link_to 'Edit', edit_game1_path(@game1)
+\|
+= link_to 'Back', game1s_path
