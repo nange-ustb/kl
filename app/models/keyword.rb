@@ -52,6 +52,7 @@ class Keyword < ActiveRecord::Base
   def update_chldren_nodes_in_redis()
     Keyword.all.each do |parent|
       parent.children.each do |child|
+        puts child.title
         parent.children_nodes["#{child.title}"] = child.id
       end
     end
@@ -63,16 +64,13 @@ class Keyword < ActiveRecord::Base
 
   def init_children(parent,keys)
   	keys.each_char do |key|
+      parent = parent.find_create_node(key)
   		if key == keys.last
-  			parent = parent.children.create(:title=>key,:is_child=>true)
-  		else
-  			parent = parent.children.create(:title=>key)
-  		end
-  	end
+        parent.is_child = true
+      end
+      parent.save
+    end
   end
-#end 初始化数据库和redis
-
-
 #begin 开始查找字符
   def find_node(key)
     if id = children_nodes[key]
@@ -99,8 +97,12 @@ class Keyword < ActiveRecord::Base
   		elsif node1.is_child == true
   			word << key
   			words << word
-  			word = ''
-  			node = root_node
+        if node.children_nodes.blank?
+  			   word = '' 
+  			   node = root_node
+        else
+           node = node1
+        end
         pos += 1
   		else
   			word << key
